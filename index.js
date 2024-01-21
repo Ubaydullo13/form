@@ -9,7 +9,7 @@ const form = document.querySelector('form');
 
 
 // Load existing data from LocalStorage
-const existingData = JSON.parse(localStorage.getItem('phones')) || [];
+let existingData = JSON.parse(localStorage.getItem('phones')) || [];
 
 form.addEventListener('submit', (e) => {
 e.preventDefault();
@@ -31,7 +31,7 @@ if(validate(name, price, category)){
 tbody.innerHTML += tr;
   form.reset();
 }else{
-  console.log("Failed check");
+  console.log("Validation failed");
 }
 });
 
@@ -41,19 +41,22 @@ existingData.forEach((phone, index) => {
   let tr = createRow(phone, index + 1);
   tbody.innerHTML += tr;
 });
-let deleteBtn = document.querySelectorAll('span.btn-danger');
+let deleteBtn = document.querySelectorAll('.btn-danger');
 
 deleteBtn.length && deleteBtn.forEach(del => {
   del && del.addEventListener('click', function() {
     let isDelete = confirm('Are you sure you want to delete this phone?');
     if(isDelete){
       let id = this.parentNode.getAttribute('data-id').substring(5);
-      existingData.existingData.filter(phone => {
+      existingData = existingData.filter(phone => {
         return phone.id != id;
       })
-      existingData.splice(index, 1);
       localStorage.setItem('phones', JSON.stringify(existingData));
-      this.parentNode.parentNode.remove();
+      tbody.innerHTML = '';
+      existingData.forEach((phone, index) => {
+        let tr = createRow(phone, index + 1);
+        tbody.innerHTML += tr;
+      });
     }
 })
 });

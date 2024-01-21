@@ -1,17 +1,17 @@
 function validate(name, price, category) {
   if (!name.value || name.value.trim().length < 3) {
     alert("Name length must be greater than 3 characters");
-    focus();
+    name.focus();
     return false;
   }
   if (!price.value || isNaN(Number(price.value))) {
     alert("Price must be a number");
-    focus();
+    price.focus();
     return false;
   }
   if (!category.value) {
     alert("Category is required"); 
-    focus();
+    category.focus();
     return false;
   }
   return true;
